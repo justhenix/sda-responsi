@@ -4,27 +4,38 @@ import java.util.HashSet;
 import java.util.List;
 
 public class TextIndexer {
+
     private final HashMap<String, ArrayList<Product>> index;
+    // Menyimpan inverted index: kata kunci -> daftar produk yang mengandungnya
+    // HashMap dipakai karena pencarian berdasarkan kata kunci jadi cepat
+    // Time complexity O(1) rata-rata untuk get/put, space complexity O(N*M)
+
     public TextIndexer() {
         this.index = new HashMap<>();
     }
+
     public void indexProduct(Product product) {
+    // Memecah summary produk menjadi kata-kata
         if (product == null || product.getSummary() == null) {
             return;
         }
+
         HashSet<String> uniqueWords = new HashSet<>();
+        // HashSet dipakai supaya kata yang berulang dalam satu summary
         for (String rawWord : product.getSummary().split("\\s+")) {
             String word = normalize(rawWord);
             if (!word.isEmpty()) {
                 uniqueWords.add(word);
             }
         }
+        
         for (String word : uniqueWords) {
             index.computeIfAbsent(word, k -> new ArrayList<>()).add(product);
         }
     }
-
+    
     public void indexAll(List<Product> products) {
+    // Mengindeks banyak produk sekaligus, biasanya dipanggil saat aplikasi pertama kali dijalankan
         if (products == null) {
             return;
         }
@@ -32,8 +43,10 @@ public class TextIndexer {
             indexProduct(product);
         }
     }
-
+    
     public void removeProduct(Product product) {
+    // Menghapus satu produk dari semua daftar kata kunci di index
+    // Berguna kalau produk dihapus dari katalog atau summary-nya diubah
         if (product == null) {
             return;
         }
@@ -43,6 +56,8 @@ public class TextIndexer {
     }
 
     public ArrayList<Product> search(String keyword) {
+    // Mencari daftar produk berdasarkan satu kata kunci
+    // Lookup langsung ke HashMap -> O(1)
         if (keyword == null || keyword.isBlank()) {
             return new ArrayList<>();
         }
@@ -50,8 +65,9 @@ public class TextIndexer {
         ArrayList<Product> result = index.get(normalized);
         return (result != null) ? new ArrayList<>(result) : new ArrayList<>();
     }
-
+    
     public ArrayList<Product> searchAll(String... keywords) {
+    // Mencari produk yang mengandung SEMUA kata kunci
         if (keywords == null || keywords.length == 0) {
             return new ArrayList<>();
         }
@@ -62,6 +78,7 @@ public class TextIndexer {
         }
 
         for (int i = 1; i < keywords.length; i++) {
+            // Dipindah ke HashSet supaya pengecekan contains() di removeIf jadi O(1) per produk, bukan O(n) kalau tetap pakai ArrayList
             HashSet<Product> nextWordMatches = new HashSet<>(search(keywords[i]));
             candidates.removeIf(p -> !nextWordMatches.contains(p));
             if (candidates.isEmpty()) {
@@ -71,11 +88,14 @@ public class TextIndexer {
         return candidates;
     }
 
+   
     public ArrayList<Product> searchAny(String... keywords) {
+    // Mencari produk yang mengandung SETIDAKNYA SATU kata kunci
         if (keywords == null || keywords.length == 0) {
             return new ArrayList<>();
         }
         java.util.LinkedHashSet<Product> combined = new java.util.LinkedHashSet<>();
+        // LinkedHashSet dipakai agar urutan kemunculan tetap terjaga
         for (String keyword : keywords) {
             combined.addAll(search(keyword));
         }
@@ -83,31 +103,17 @@ public class TextIndexer {
     }
 
     public int getIndexedWordCount() {
+    // Jumlah kata kunci unik yang sudah terindeks
         return index.size();
     }
 
     public void clear() {
+    // Mengosongkan seluruh index, dipakai sebelum reindex penuh
         index.clear();
     }
-
+    
     private String normalize(String word) {
+    // Menyamakan format kata: lowercase + buang tanda baca
         return word.toLowerCase().replaceAll("[^\\p{L}\\p{N}]", "");
-    }
-
-    public static void main(String[] args) {
-        TextIndexer indexer = new TextIndexer();
-
-        List<Product> products = new ArrayList<>();
-        products.add(new Product(1, "Sepatu Lari X1", "Sepatu lari ringan untuk pemula dan profesional", 350000, 4.5));
-        products.add(new Product(2, "Sepatu Futsal Z2", "Sepatu futsal grip kuat untuk lapangan indoor", 280000, 4.2));
-        products.add(new Product(3, "Kaos Lari Pro", "Kaos lari breathable cocok untuk olahraga outdoor", 120000, 4.7));
-
-        indexer.indexAll(products);
-
-        System.out.println("Cari 'lari'      : " + indexer.search("lari"));
-        System.out.println("Cari 'sepatu'    : " + indexer.search("sepatu"));
-        System.out.println("Cari 'sepatu' AND 'lari' : " + indexer.searchAll("sepatu", "lari"));
-        System.out.println("Cari 'futsal' OR 'kaos'  : " + indexer.searchAny("futsal", "kaos"));
-        System.out.println("Jumlah kata terindeks    : " + indexer.getIndexedWordCount());
     }
 }
