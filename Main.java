@@ -59,7 +59,7 @@ public class Main {
         System.out.println("                                MyKatalog");
         System.out.println("                Product Summary Manager - SDA Responsi 2025B");
         System.out.println("======================================================================================");
-        System.out.println("                CLI katalog produk, filter spam, dan text indexing");
+        System.out.println("             CLI katalog produk, filter spam, dan text indexing");
         System.out.println("======================================================================================");
     }
 
