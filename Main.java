@@ -114,6 +114,7 @@ public class Main {
         System.out.println("MyKatalog adalah aplikasi CLI untuk mengelola ringkasan produk.");
         System.out.println("Fitur utama: katalog produk, sorting, spam filter, dan text indexing.");
         System.out.println("Proyek SDA Responsi 2025B.");
+        System.out.println("Nomor kelompok: 3");
         System.out.println();
         System.out.println("Anggota kelompok:");
         System.out.println("1. Gamma Assyafi Fadhillah Ar Rasyad (L0125013)");
