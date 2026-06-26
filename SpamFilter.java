@@ -117,20 +117,4 @@ public class SpamFilter {
     // Membuang tanda baca dari sebuah kata
         return token.replaceAll("[^\\p{L}\\p{N}]", "");
     }
-
-    public static void main(String[] args) {
-    // Tes manual sederhana, boleh dihapus / dipindah ke file test
-        SpamFilter filter = new SpamFilter(new String[]{"palsu", "KW", "tiruan"});
-
-        String input1 = "Sepatu ini KUALITAS ORIGINAL, bukan barang palsu atau KW!";
-        String input2 = "Produk tiruan dari brand ternama, kepalsuan tidak terdeteksi.";
-
-        System.out.println("Input  : " + input1);
-        System.out.println("Output : " + filter.sensor(input1));
-        System.out.println();
-        System.out.println("Input  : " + input2);
-        System.out.println("Output : " + filter.sensor(input2));
-        System.out.println();
-        System.out.println("Contains forbidden word? " + filter.containsForbiddenWord(input1));
-    }
 }
