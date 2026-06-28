@@ -321,7 +321,8 @@ public class CatalogManager {
         System.out.println();
         System.out.println("--------------------------------------------------");
         for (int i = 0; i < daftar.size(); i++) {
-            System.out.println("[" + (i + 1) + "] " + daftar.get(i).toString());
+            System.out.println("Produk #" + (i + 1) + ":");
+            System.out.println(daftar.get(i).toString());
             System.out.println("--------------------------------------------------");
         }
         System.out.println("Total: " + daftar.size() + " produk.");

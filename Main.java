@@ -95,6 +95,11 @@ public class Main {
         System.out.println("======================");
     }
 
+    private static boolean isBatal(String str) {
+        // Helper untuk mendeteksi perintah pembatalan dari pengguna
+        return str != null && str.trim().equalsIgnoreCase("batal");
+    }
+
     private static void tampilkanKatalog() {
         System.out.println();
         System.out.println("=== LIHAT KATALOG PRODUK ===");
@@ -147,8 +152,14 @@ public class Main {
         System.out.println("Pilih Algoritma Sorting:");
         System.out.println("1. Merge Sort (Complexity: O(N log N) - Stable)");
         System.out.println("2. Quick Sort (Complexity: O(N log N) Avg / O(N^2) Worst - Unstable)");
-        System.out.print("Pilih algoritma: ");
+        System.out.println("0. Batal (Kembali)");
+        System.out.print("Pilih opsi: ");
         String algoPilihan = input.nextLine();
+
+        if (algoPilihan.equals("0") || isBatal(algoPilihan)) {
+            System.out.println("Pengurutan dibatalkan.");
+            return;
+        }
 
         CatalogManager.SortAlgorithm algo;
         if (algoPilihan.equals("1")) {
@@ -181,8 +192,13 @@ public class Main {
         for (int i = 0; i < daftarKategori.size(); i++) {
             System.out.println((i + 1) + ". " + daftarKategori.get(i));
         }
-        System.out.print("Pilih kategori (masukkan nama kategori): ");
+        System.out.print("Pilih kategori (Contoh: Sepatu, atau ketik 'batal' untuk batal): ");
         String katInput = input.nextLine();
+
+        if (isBatal(katInput)) {
+            System.out.println("Filter kategori dibatalkan.");
+            return;
+        }
 
         ArrayList<Product> hasilFilter = catalogManager.filterByKategori(katInput);
         System.out.println("\n--- HASIL FILTER KATEGORI: " + katInput + " ---");
@@ -192,8 +208,13 @@ public class Main {
     private static void tambahProduk() {
         System.out.println();
         System.out.println("=== TAMBAH PRODUK ===");
-        System.out.print("Masukkan ID Produk: ");
+        System.out.print("Masukkan ID Produk (Contoh: P006, atau ketik 'batal' untuk batal): ");
         String idProduk = input.nextLine();
+        if (isBatal(idProduk)) {
+            System.out.println("Penambahan produk dibatalkan.");
+            tungguEnter();
+            return;
+        }
         
         // Validasi duplikasi ID produk
         if (catalogManager.findById(idProduk) != null) {
@@ -202,25 +223,48 @@ public class Main {
             return;
         }
 
-        System.out.print("Masukkan Nama Produk: ");
+        System.out.print("Masukkan Nama Produk (Contoh: Jersey Bola, atau ketik 'batal' untuk batal): ");
         String nama = input.nextLine();
-        System.out.print("Masukkan Kategori: ");
+        if (isBatal(nama)) {
+            System.out.println("Penambahan produk dibatalkan.");
+            tungguEnter();
+            return;
+        }
+
+        System.out.print("Masukkan Kategori (Contoh: Pakaian, atau ketik 'batal' untuk batal): ");
         String kategori = input.nextLine();
+        if (isBatal(kategori)) {
+            System.out.println("Penambahan produk dibatalkan.");
+            tungguEnter();
+            return;
+        }
         
+        System.out.print("Masukkan Harga (Rupiah) (Contoh: 150000, atau ketik 'batal' untuk batal): ");
+        String hargaStr = input.nextLine();
+        if (isBatal(hargaStr)) {
+            System.out.println("Penambahan produk dibatalkan.");
+            tungguEnter();
+            return;
+        }
         double harga = 0;
         try {
-            System.out.print("Masukkan Harga (Rupiah): ");
-            harga = Double.parseDouble(input.nextLine());
+            harga = Double.parseDouble(hargaStr);
         } catch (NumberFormatException e) {
             System.out.println("Gagal: Harga harus berupa angka.");
             tungguEnter();
             return;
         }
 
+        System.out.print("Masukkan Rating (0.0 - 5.0) (Contoh: 4.8, atau ketik 'batal' untuk batal): ");
+        String ratingStr = input.nextLine();
+        if (isBatal(ratingStr)) {
+            System.out.println("Penambahan produk dibatalkan.");
+            tungguEnter();
+            return;
+        }
         double rating = 0;
         try {
-            System.out.print("Masukkan Rating (0.0 - 5.0): ");
-            rating = Double.parseDouble(input.nextLine());
+            rating = Double.parseDouble(ratingStr);
             if (rating < 0.0 || rating > 5.0) {
                 System.out.println("Gagal: Rating harus di antara 0.0 dan 5.0.");
                 tungguEnter();
@@ -232,18 +276,29 @@ public class Main {
             return;
         }
 
+        System.out.print("Masukkan Stok (Contoh: 25, atau ketik 'batal' untuk batal): ");
+        String stokStr = input.nextLine();
+        if (isBatal(stokStr)) {
+            System.out.println("Penambahan produk dibatalkan.");
+            tungguEnter();
+            return;
+        }
         int stok = 0;
         try {
-            System.out.print("Masukkan Stok: ");
-            stok = Integer.parseInt(input.nextLine());
+            stok = Integer.parseInt(stokStr);
         } catch (NumberFormatException e) {
             System.out.println("Gagal: Stok harus berupa angka bulat.");
             tungguEnter();
             return;
         }
 
-        System.out.print("Masukkan Summary Deskripsi: ");
+        System.out.print("Masukkan Summary Deskripsi (Contoh: Jersey futsal kualitas premium, atau ketik 'batal' untuk batal): ");
         String summary = input.nextLine();
+        if (isBatal(summary)) {
+            System.out.println("Penambahan produk dibatalkan.");
+            tungguEnter();
+            return;
+        }
 
         // Membuat objek produk baru
         Product baru = new Product(idProduk, nama, kategori, harga, rating, stok, summary);
@@ -262,8 +317,13 @@ public class Main {
     private static void cariProduk() {
         System.out.println();
         System.out.println("=== CARI PRODUK ===");
-        System.out.print("Masukkan satu atau lebih kata kunci pencarian (pisahkan dengan spasi): ");
+        System.out.print("Masukkan satu atau lebih kata kunci pencarian (Contoh: lari sepatu, atau ketik 'batal' untuk batal): ");
         String query = input.nextLine().trim();
+        if (isBatal(query)) {
+            System.out.println("Pencarian dibatalkan.");
+            tungguEnter();
+            return;
+        }
         if (query.isEmpty()) {
             System.out.println("Kata kunci tidak boleh kosong.");
             tungguEnter();
@@ -275,8 +335,15 @@ public class Main {
         System.out.println("Pilih Jenis Pencarian:");
         System.out.println("1. Cocokkan SEMUA kata kunci (AND)");
         System.out.println("2. Cocokkan SALAH SATU kata kunci (OR)");
-        System.out.print("Pilih opsi (1/2): ");
+        System.out.println("0. Batal (Kembali)");
+        System.out.print("Pilih opsi: ");
         String tipeCari = input.nextLine();
+
+        if (tipeCari.equals("0") || isBatal(tipeCari)) {
+            System.out.println("Pencarian dibatalkan.");
+            tungguEnter();
+            return;
+        }
 
         ArrayList<Product> hasil;
         if (tipeCari.equals("2")) {
@@ -297,23 +364,45 @@ public class Main {
         System.out.println("1. Sensor Teks");
         System.out.println("2. Tambah Kata Terlarang");
         System.out.println("3. Hapus Kata Terlarang");
-        System.out.print("Pilih opsi (1/2/3): ");
+        System.out.println("0. Batal (Kembali)");
+        System.out.print("Pilih opsi (1/2/3/0): ");
         String opsi = input.nextLine();
 
+        if (opsi.equals("0") || isBatal(opsi)) {
+            System.out.println("Sensor teks dibatalkan.");
+            tungguEnter();
+            return;
+        }
+
         if (opsi.equals("1")) {
-            System.out.print("Masukkan teks yang ingin disensor: ");
+            System.out.print("Masukkan teks yang ingin disensor (Contoh: Sepatu palsu kualitas kw, atau ketik 'batal' untuk batal): ");
             String teks = input.nextLine();
+            if (isBatal(teks)) {
+                System.out.println("Penyensoran dibatalkan.");
+                tungguEnter();
+                return;
+            }
             String hasilSensor = spamFilter.sensor(teks);
             System.out.println("\nHasil Sensor:");
             System.out.println(hasilSensor);
         } else if (opsi.equals("2")) {
-            System.out.print("Masukkan kata terlarang baru: ");
+            System.out.print("Masukkan kata terlarang baru (Contoh: tiruan, atau ketik 'batal' untuk batal): ");
             String kataBaru = input.nextLine();
+            if (isBatal(kataBaru)) {
+                System.out.println("Aksi dibatalkan.");
+                tungguEnter();
+                return;
+            }
             spamFilter.addForbiddenWord(kataBaru);
             System.out.println("Kata \"" + kataBaru.toLowerCase() + "\" telah ditambahkan.");
         } else if (opsi.equals("3")) {
-            System.out.print("Masukkan kata terlarang yang ingin dihapus: ");
+            System.out.print("Masukkan kata terlarang yang ingin dihapus (Contoh: kw, atau ketik 'batal' untuk batal): ");
             String kataHapus = input.nextLine();
+            if (isBatal(kataHapus)) {
+                System.out.println("Aksi dibatalkan.");
+                tungguEnter();
+                return;
+            }
             boolean dihapus = spamFilter.removeForbiddenWord(kataHapus);
             if (dihapus) {
                 System.out.println("Kata \"" + kataHapus.toLowerCase() + "\" berhasil dihapus.");
