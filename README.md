@@ -24,14 +24,28 @@ Mengindeks ringkasan produk untuk pencarian instan berbasis kata kunci.
 
 Mengurutkan katalog produk berdasarkan harga terendah atau rating tertinggi.
 
-## Struktur Data & Algoritma
+## Struktur Data & Algoritma dan Alasan Pemilihannya
 
-| Struktur / Algoritma | Deskripsi |
-|---|---|
-| `HashSet<String>` | Menyimpan kata terlarang. Pencarian kata berjalan dengan kompleksitas rata-rata O(1). |
-| `HashMap<String, ArrayList<Product>>` | Struktur inverted index untuk memetakan kata kunci pencarian langsung ke daftar produk terkait. |
-| `ArrayList<Product>` | Katalog utama untuk menampung seluruh data objek produk secara dinamis di memori. |
-| Merge Sort / Quick Sort (Kustom) | Algoritma pengurutan kustom log-linear dengan kompleksitas rata-rata O(N log N). |
+### 1. `HashSet<String>` (Forbidden Words Set)
+* **Deskripsi**: Menyimpan daftar kata kunci terlarang (spam) untuk penyaringan.
+* **Alasan Pemilihan**: Pencarian data (`contains`) pada `HashSet` berjalan dengan kompleksitas waktu rata-rata **$O(1)$** karena menggunakan mekanisme hashing. Ini sangat efisien dibandingkan pencarian linear pada `ArrayList` ($O(N)$), sehingga proses pengecekan spam pada deskripsi produk yang panjang dapat berjalan secara instan.
+
+### 2. `HashMap<String, ArrayList<Product>>` (Inverted Index)
+* **Deskripsi**: Struktur pemetaan dari kata kunci pencarian ke daftar produk terkait.
+* **Alasan Pemilihan**: Berfungsi sebagai *inverted index* untuk pencarian teks. Dengan memetakan kata kunci ke list produk menggunakan `HashMap`, pencarian produk berjalan dengan kompleksitas rata-rata **$O(1)$** untuk pencarian kata tunggal, alih-alih melakukan pemindaian linear $O(N \times M)$ pada deskripsi seluruh produk setiap kali pengguna melakukan pencarian.
+
+### 3. `ArrayList<Product>` (Katalog Produk Utama)
+* **Deskripsi**: Penampung utama seluruh data objek produk di memori secara dinamis.
+* **Alasan Pemilihan**: Menawarkan akses elemen acak (*random access*) berdasarkan indeks dengan kecepatan konstan **$O(1)$**, serta penambahan elemen baru di akhir dengan kompleksitas rata-rata **$O(1)$**. Sifat akses acak yang sangat cepat ini sangat krusial untuk efisiensi algoritma pengurutan (Sorting) kustom yang sering melakukan pertukaran elemen.
+
+### 4. Merge Sort (Kustom)
+* **Deskripsi**: Algoritma pengurutan kustom berbasis *divide-and-conquer* yang stabil (*stable*).
+* **Alasan Pemilihan**: Merge Sort menjamin kompleksitas waktu terburuk (worst-case) sebesar **$O(N \log N)$** dan bersifat **stabil** (*stable sort*). Kestabilan ini memastikan bahwa jika ada dua produk dengan nilai sorting yang sama (misal harga sama), urutan relatif awal mereka di katalog tetap terjaga.
+
+### 5. Quick Sort (Kustom)
+* **Deskripsi**: Algoritma pengurutan kustom berbasis partisi *in-place* yang tidak stabil (*unstable*).
+* **Alasan Pemilihan**: Meskipun memiliki kompleksitas terburuk $O(N^2)$, Quick Sort memiliki performa rata-rata **$O(N \log N)$** yang secara praktis berjalan sangat cepat karena faktor konstanta yang kecil. Pengurutan dilakukan secara *in-place*, sehingga memiliki kompleksitas ruang tambahan yang sangat kecil yaitu **$O(\log N)$** untuk stack rekursi.
+
 
 ## Struktur Folder
 
