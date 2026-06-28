@@ -59,6 +59,8 @@ sda-responsi/
 ├── CatalogManager.java   # Pengelola katalog & sorting
 ├── TextIndexer.java      # Pengelola indeks kata kunci
 ├── SpamFilter.java       # Pengelola sensor kata
+├── misc/                 # Aset pendukung proyek
+│   └── cli_banner.png    # Gambar banner repositori
 └── README.md             # Dokumentasi proyek
 ```
 
