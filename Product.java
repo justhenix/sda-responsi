@@ -104,15 +104,13 @@ public class Product {
     @Override
     public String toString() {
         return String.format(
-            "+--------------------------------------------------+\n" +
-            "| ID       : %-37s|\n" +
-            "| Nama     : %-37s|\n" +
-            "| Kategori : %-37s|\n" +
-            "| Harga    : Rp%-35.0f|\n" +
-            "| Rating   : %-4.1f / 5.0                            |\n" +
-            "| Stok     : %-37d|\n" +
-            "| Summary  : %-37s|\n" +
-            "+--------------------------------------------------+",
+            "ID       : %s\n" +
+            "Nama     : %s\n" +
+            "Kategori : %s\n" +
+            "Harga    : Rp%.0f\n" +
+            "Rating   : %.1f / 5.0\n" +
+            "Stok     : %d\n" +
+            "Summary  : %s",
             id, nama, kategori, harga, rating, stok, summary
         );
     }

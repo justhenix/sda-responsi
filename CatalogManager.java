@@ -313,15 +313,16 @@ public class CatalogManager {
     // -------------------------------------------------------------------------
 
     public void tampilkanDaftar(ArrayList<Product> daftar) {
-    // Mencetak daftar produk ke konsol
+    // Mencetak daftar produk ke konsol dengan pembatas baris yang rapi dan konsisten
         if (daftar == null || daftar.isEmpty()) {
             System.out.println("Tidak ada produk untuk ditampilkan.");
             return;
         }
         System.out.println();
+        System.out.println("--------------------------------------------------");
         for (int i = 0; i < daftar.size(); i++) {
-            System.out.println((i + 1) + ". " + daftar.get(i).toString());
-            System.out.println();
+            System.out.println("[" + (i + 1) + "] " + daftar.get(i).toString());
+            System.out.println("--------------------------------------------------");
         }
         System.out.println("Total: " + daftar.size() + " produk.");
     }
