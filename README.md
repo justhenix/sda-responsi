@@ -1,4 +1,6 @@
-# Product Summary Manager
+# MyKatalog
+
+![MyKatalog Banner](misc/cli_banner.png)
 
 Aplikasi CLI interaktif untuk manajemen informasi katalog produk, penyaringan konten terlarang (spam), dan pengindeksan kata kunci.
 
