@@ -4,7 +4,7 @@ Aplikasi CLI interaktif untuk manajemen informasi katalog produk, penyaringan ko
 
 Proyek Tugas Akhir Responsi Struktur Data dan Algoritma (SDA) Kelas 2025B.
 
-## Anggota Kelompok
+## Anggota Kelompok 3
 
 - Gamma Assyafi Fadhillah Ar Rasyad (L0125013)
 - Mohammad Ardewa Nanda Prayudia (L0125021)
