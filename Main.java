@@ -210,7 +210,7 @@ public class Main {
         System.out.println("=== TAMBAH PRODUK ===");
         
         String idProduk = "";
-        while (true) {
+        while (true) { // Loop untuk memvalidasi ID produk agar unik dan tidak kosong
             System.out.print("Masukkan ID Produk (Contoh: P006, atau ketik 'batal' untuk batal): ");
             idProduk = input.nextLine();
             if (isBatal(idProduk)) {
@@ -230,7 +230,7 @@ public class Main {
         }
 
         String nama = "";
-        while (true) {
+        while (true) { // Loop untuk memvalidasi nama produk agar tidak kosong
             System.out.print("Masukkan Nama Produk (Contoh: Jersey Bola, atau ketik 'batal' untuk batal): ");
             nama = input.nextLine();
             if (isBatal(nama)) {
@@ -246,7 +246,7 @@ public class Main {
         }
 
         String kategori = "";
-        while (true) {
+        while (true) { // Loop untuk memvalidasi kategori agar tidak kosong
             System.out.print("Masukkan Kategori (Contoh: Pakaian, atau ketik 'batal' untuk batal): ");
             kategori = input.nextLine();
             if (isBatal(kategori)) {
@@ -262,7 +262,7 @@ public class Main {
         }
         
         double harga = 0;
-        while (true) {
+        while (true) { // Loop untuk memvalidasi harga agar berupa angka desimal positif
             System.out.print("Masukkan Harga (Rupiah) (Contoh: 150000, atau ketik 'batal' untuk batal): ");
             String hargaStr = input.nextLine();
             if (isBatal(hargaStr)) {
@@ -283,7 +283,7 @@ public class Main {
         }
 
         double rating = 0;
-        while (true) {
+        while (true) { // Loop untuk memvalidasi rating agar berada di rentang 0.0 - 5.0
             System.out.print("Masukkan Rating (0.0 - 5.0) (Contoh: 4.8, atau ketik 'batal' untuk batal): ");
             String ratingStr = input.nextLine();
             if (isBatal(ratingStr)) {
@@ -304,7 +304,7 @@ public class Main {
         }
 
         int stok = 0;
-        while (true) {
+        while (true) { // Loop untuk memvalidasi jumlah stok agar berupa angka bulat non-negatif
             System.out.print("Masukkan Stok (Contoh: 25, atau ketik 'batal' untuk batal): ");
             String stokStr = input.nextLine();
             if (isBatal(stokStr)) {
@@ -325,7 +325,7 @@ public class Main {
         }
 
         String summary = "";
-        while (true) {
+        while (true) { // Loop untuk memvalidasi summary deskripsi agar tidak kosong
             System.out.print("Masukkan Summary Deskripsi (Contoh: Jersey futsal kualitas premium, atau ketik 'batal' untuk batal): ");
             summary = input.nextLine();
             if (isBatal(summary)) {
@@ -340,10 +340,10 @@ public class Main {
             break;
         }
 
-        // Membuat objek produk baru
+        // Membuat objek produk baru dengan data yang telah divalidasi
         Product baru = new Product(idProduk, nama, kategori, harga, rating, stok, summary);
 
-        // Menambahkan produk ke katalog (otomatis disaring kata terlarang & diindeks)
+        // Integrasi akhir: menambahkan produk ke katalog (otomatis disaring & diindeks)
         boolean berhasil = catalogManager.addProduct(baru);
         if (berhasil) {
             System.out.println("Produk berhasil ditambahkan!");
@@ -370,6 +370,7 @@ public class Main {
             return;
         }
 
+        // Memecah input teks pencarian menjadi kumpulan kata kunci berdasarkan spasi
         String[] keywords = query.split("\\s+");
         
         System.out.println("Pilih Jenis Pencarian:");
@@ -385,6 +386,7 @@ public class Main {
             return;
         }
 
+        // Melakukan pencarian menggunakan indexer kata kunci (OR atau AND)
         ArrayList<Product> hasil;
         if (tipeCari.equals("2")) {
             hasil = textIndexer.searchAny(keywords);
