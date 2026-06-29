@@ -208,96 +208,136 @@ public class Main {
     private static void tambahProduk() {
         System.out.println();
         System.out.println("=== TAMBAH PRODUK ===");
-        System.out.print("Masukkan ID Produk (Contoh: P006, atau ketik 'batal' untuk batal): ");
-        String idProduk = input.nextLine();
-        if (isBatal(idProduk)) {
-            System.out.println("Penambahan produk dibatalkan.");
-            tungguEnter();
-            return;
-        }
         
-        // Validasi duplikasi ID produk
-        if (catalogManager.findById(idProduk) != null) {
-            System.out.println("Gagal: Produk dengan ID tersebut sudah ada.");
-            tungguEnter();
-            return;
-        }
-
-        System.out.print("Masukkan Nama Produk (Contoh: Jersey Bola, atau ketik 'batal' untuk batal): ");
-        String nama = input.nextLine();
-        if (isBatal(nama)) {
-            System.out.println("Penambahan produk dibatalkan.");
-            tungguEnter();
-            return;
-        }
-
-        System.out.print("Masukkan Kategori (Contoh: Pakaian, atau ketik 'batal' untuk batal): ");
-        String kategori = input.nextLine();
-        if (isBatal(kategori)) {
-            System.out.println("Penambahan produk dibatalkan.");
-            tungguEnter();
-            return;
-        }
-        
-        System.out.print("Masukkan Harga (Rupiah) (Contoh: 150000, atau ketik 'batal' untuk batal): ");
-        String hargaStr = input.nextLine();
-        if (isBatal(hargaStr)) {
-            System.out.println("Penambahan produk dibatalkan.");
-            tungguEnter();
-            return;
-        }
-        double harga = 0;
-        try {
-            harga = Double.parseDouble(hargaStr);
-        } catch (NumberFormatException e) {
-            System.out.println("Gagal: Harga harus berupa angka.");
-            tungguEnter();
-            return;
-        }
-
-        System.out.print("Masukkan Rating (0.0 - 5.0) (Contoh: 4.8, atau ketik 'batal' untuk batal): ");
-        String ratingStr = input.nextLine();
-        if (isBatal(ratingStr)) {
-            System.out.println("Penambahan produk dibatalkan.");
-            tungguEnter();
-            return;
-        }
-        double rating = 0;
-        try {
-            rating = Double.parseDouble(ratingStr);
-            if (rating < 0.0 || rating > 5.0) {
-                System.out.println("Gagal: Rating harus di antara 0.0 dan 5.0.");
+        String idProduk = "";
+        while (true) {
+            System.out.print("Masukkan ID Produk (Contoh: P006, atau ketik 'batal' untuk batal): ");
+            idProduk = input.nextLine();
+            if (isBatal(idProduk)) {
+                System.out.println("Penambahan produk dibatalkan.");
                 tungguEnter();
                 return;
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Gagal: Rating harus berupa angka desimal.");
-            tungguEnter();
-            return;
+            if (idProduk.trim().isEmpty()) {
+                System.out.println("Gagal: ID Produk tidak boleh kosong.");
+                continue;
+            }
+            if (catalogManager.findById(idProduk) != null) {
+                System.out.println("Gagal: Produk dengan ID tersebut sudah ada.");
+                continue;
+            }
+            break;
         }
 
-        System.out.print("Masukkan Stok (Contoh: 25, atau ketik 'batal' untuk batal): ");
-        String stokStr = input.nextLine();
-        if (isBatal(stokStr)) {
-            System.out.println("Penambahan produk dibatalkan.");
-            tungguEnter();
-            return;
+        String nama = "";
+        while (true) {
+            System.out.print("Masukkan Nama Produk (Contoh: Jersey Bola, atau ketik 'batal' untuk batal): ");
+            nama = input.nextLine();
+            if (isBatal(nama)) {
+                System.out.println("Penambahan produk dibatalkan.");
+                tungguEnter();
+                return;
+            }
+            if (nama.trim().isEmpty()) {
+                System.out.println("Gagal: Nama Produk tidak boleh kosong.");
+                continue;
+            }
+            break;
         }
+
+        String kategori = "";
+        while (true) {
+            System.out.print("Masukkan Kategori (Contoh: Pakaian, atau ketik 'batal' untuk batal): ");
+            kategori = input.nextLine();
+            if (isBatal(kategori)) {
+                System.out.println("Penambahan produk dibatalkan.");
+                tungguEnter();
+                return;
+            }
+            if (kategori.trim().isEmpty()) {
+                System.out.println("Gagal: Kategori tidak boleh kosong.");
+                continue;
+            }
+            break;
+        }
+        
+        double harga = 0;
+        while (true) {
+            System.out.print("Masukkan Harga (Rupiah) (Contoh: 150000, atau ketik 'batal' untuk batal): ");
+            String hargaStr = input.nextLine();
+            if (isBatal(hargaStr)) {
+                System.out.println("Penambahan produk dibatalkan.");
+                tungguEnter();
+                return;
+            }
+            try {
+                harga = Double.parseDouble(hargaStr);
+                if (harga < 0) {
+                    System.out.println("Gagal: Harga tidak boleh negatif.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Gagal: Harga harus berupa angka.");
+            }
+        }
+
+        double rating = 0;
+        while (true) {
+            System.out.print("Masukkan Rating (0.0 - 5.0) (Contoh: 4.8, atau ketik 'batal' untuk batal): ");
+            String ratingStr = input.nextLine();
+            if (isBatal(ratingStr)) {
+                System.out.println("Penambahan produk dibatalkan.");
+                tungguEnter();
+                return;
+            }
+            try {
+                rating = Double.parseDouble(ratingStr);
+                if (rating < 0.0 || rating > 5.0) {
+                    System.out.println("Gagal: Rating harus di antara 0.0 dan 5.0.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Gagal: Rating harus berupa angka desimal.");
+            }
+        }
+
         int stok = 0;
-        try {
-            stok = Integer.parseInt(stokStr);
-        } catch (NumberFormatException e) {
-            System.out.println("Gagal: Stok harus berupa angka bulat.");
-            tungguEnter();
-            return;
+        while (true) {
+            System.out.print("Masukkan Stok (Contoh: 25, atau ketik 'batal' untuk batal): ");
+            String stokStr = input.nextLine();
+            if (isBatal(stokStr)) {
+                System.out.println("Penambahan produk dibatalkan.");
+                tungguEnter();
+                return;
+            }
+            try {
+                stok = Integer.parseInt(stokStr);
+                if (stok < 0) {
+                    System.out.println("Gagal: Stok tidak boleh negatif.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Gagal: Stok harus berupa angka bulat.");
+            }
         }
 
-        System.out.print("Masukkan Summary Deskripsi (Contoh: Jersey futsal kualitas premium, atau ketik 'batal' untuk batal): ");
-        String summary = input.nextLine();
-        if (isBatal(summary)) {
-            System.out.println("Penambahan produk dibatalkan.");
-            tungguEnter();
-            return;
+        String summary = "";
+        while (true) {
+            System.out.print("Masukkan Summary Deskripsi (Contoh: Jersey futsal kualitas premium, atau ketik 'batal' untuk batal): ");
+            summary = input.nextLine();
+            if (isBatal(summary)) {
+                System.out.println("Penambahan produk dibatalkan.");
+                tungguEnter();
+                return;
+            }
+            if (summary.trim().isEmpty()) {
+                System.out.println("Gagal: Summary Deskripsi tidak boleh kosong.");
+                continue;
+            }
+            break;
         }
 
         // Membuat objek produk baru
