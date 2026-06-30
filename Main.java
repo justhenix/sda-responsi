@@ -76,7 +76,7 @@ public class Main {
         System.out.println("              \\______/                                                      \\______/ ");
         System.out.println();
         System.out.println("                                MyKatalog");
-        System.out.println("                Product Summary Manager - SDA Responsi 2025B");
+        System.out.println("                Product Summary Manager - SDA Responsi 2025A");
         System.out.println("======================================================================================");
         System.out.println("             CLI katalog produk, filter spam, dan text indexing");
         System.out.println("======================================================================================");
@@ -462,7 +462,7 @@ public class Main {
         System.out.println();
         System.out.println("MyKatalog adalah aplikasi CLI untuk mengelola ringkasan produk.");
         System.out.println("Fitur utama: katalog produk, sorting, spam filter, dan text indexing.");
-        System.out.println("Proyek SDA Responsi 2025B.");
+        System.out.println("Proyek SDA Responsi 2025A.");
         System.out.println("Nomor kelompok: 3");
         System.out.println();
         System.out.println("Anggota kelompok:");

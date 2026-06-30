@@ -4,7 +4,7 @@
 
 Aplikasi CLI interaktif untuk manajemen informasi katalog produk, penyaringan konten terlarang (spam), dan pengindeksan kata kunci.
 
-Proyek Tugas Akhir Responsi Struktur Data dan Algoritma (SDA) Kelas 2025 (A).
+Proyek Tugas Akhir Responsi Struktur Data dan Algoritma (SDA) Kelas 2025A.
 
 ## Anggota Kelompok 3
 
